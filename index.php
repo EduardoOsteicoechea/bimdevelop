@@ -26,4 +26,4 @@ for ($i=0; $i < count($folder_array); $i++) {
 $markup .= '</ol>';
 $markup .= '</main>';
 echo $markup;
-?>
+?> 
