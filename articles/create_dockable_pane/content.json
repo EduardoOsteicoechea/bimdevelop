@@ -1,0 +1,53 @@
+{
+	"title":"create dockable pane using c# through the revit api",
+	"article type": {
+		"type 1": "tutorial",
+		"type 2": "how to"
+	},
+	"content":[
+		["h1", "Create a dockable pane using c# through the revit api" ],
+		["p", "To create a dockable pane we need to provide the correct arguments for the \"RegisterDockablePane\" method of the \"UIControlledApplication\" instance obtained as a parameter called \"application\", that we get from both the  \"OnShutDown\" and \"OnStartUp\" methods of the \"IExternalApplication\" inheritant class." ],
+		["img", "IExternalApplicationInheritantClass.png" ],
+		["p", "As you may know, this is the only future-proof approach currently available." ],
+		["p", "Therefore, dockable panes are only registrable from External Applications. Don't procure them in any other way." ],
+
+		["h2", "Registering a DockablePane from an External Application."],
+		["p", "The \"RegisterDockablePane\" method is a void member of the \"UIControlledApplication\" instance parameter that requires 3 instances as arguments." ],
+		["p", "Here you can see them in the RevitAPI documentation:" ],
+		["img", "RegisterDockablePaneMethod_documentation.png"],
+		["p", "First, we need a \"DockablePaneId\" instance. This is constructed by providing a GUID instance as an argument. This instance can be obtained by simply declaring \"new DockablePaneId(Guid.NewGuid())\"."],
+		["p", "Second, we need a \"string\" instance (just text inside quotes). This will be the title of the dockable pane." ],
+		["p", "And last but not least, we need an \"IDockablePaneProvider\" inheritant class instance. This is the tricky part." ],
+
+		["h3", "Instantiating an \"IDockablePaneProvider\" inheritant class."],
+		["p", "Well achieve this by declaring two clases that will provide the necessary elements to generate this \"IDockablePaneProvider\" inheritant class." ],
+		["p", "The first class will inherit from the \"IDockablePaneProvider\" interface. I decided to call this class \"DockablePaneProvider\", you can name it the way you want." ],
+		["img", "DockablePaneProvider_class.png"],
+		["p", "This class can have a parameterless constructor, so we'll just instantiate it as the third argument of the \"RegisterDockablePane\" method." ],
+		["img", "DockablePaneProvider_instantiation.png"],
+		["p", "The essential element for this class is the \"IDockablePaneProvider\" interface's single inforced method called \"SetupDockablePane\"." ],
+		["p", "This method brings a parameter called \"data\", that is an instance of the \"DockablePaneProviderData\" class. this instance has a minimal obligatory property to create the dockable pane: the \"FrameworkElement\" property." ],
+		["img", "DockablePaneProvider_class.png"],
+		["p", "As you can see, we declared the value of this property as null first and then set it's value to an instance of the class we'll discuss next." ],
+		["p", "But before that, I would like to clarify that although we could skip the initial null value statement in the  \"FrameworkElement\" property, this step is recommended in the oficial documentation." ],
+		["img", "IDockablePaneProvider_implementation_documentation.png"],
+
+		["h3", "Providing the UI element required by the \"FrameworkElement\" property of the \"SetupDockablePane\" method." ],
+		["p", "now let's check the class the we'll state as the value of the \"FrameworkElement\" property." ],
+		["p", "We have to provide the actual UI element that will be displayed inside the dockable pane as the value of the \"FrameworkElement\" property." ],
+		["p", "We'll achieve this instatiating a new class as the value of this property." ],
+		["img", "DockablePanePage_instantiation.png"],
+		["p", "I decided to call this class \"DockablePanePage\", you can choose the name you like." ],
+		["p", "This class will inherit from the \"System.Windows.Controls.Page\" class, and will give you access to all of the elements of this UI element." ],
+		["img", "DockablePanePage_class.png"],
+		["p", "You can declare and configure as many UI elements as you like. just remember to declare it's public constructor after the class name." ],
+		["p", "If you've followed the previous steps correctly, you have a (totally basic and empty but functional) dockable pane." ],
+		["img", "basic_empty_dockable_pane_result.png"],
+
+		["h2", "Conclusion" ],
+		["p", "I feel like it's time to wrap up. There are crucial steps yet to take in order to make that this dockable pane actually usefull for the Revit application, but for the topic of this article (creating the dockable pane) it's enough." ],
+		["p", "In summary, we register a dockable pane by declaring an \"IExternalApplication\" interface inheritant class, then, calling it's \"UIControlledApplication\" parameter instance method \"RegisterDockablePane()\", and then, providing the correct arguments to this method."],
+		["p", "This arguments are a \"DockablePaneId\" instance, a \"string\" corresponding to the dockable pane title, and an \"IDockablePaneProvider\" inheritant class instance that wrightly set's the \"FrameworkElement\" property of that class."],
+		["p", "From this point on I woudl recomend at least two crucial steps for a functional External Application that implements dockable panes. If you desire to read about this, press the corresponding links in the current section articles and enjoy!"]
+	]
+}
